@@ -1,20 +1,22 @@
 <template>
   <div>
     <button @click="showModal">Открыть модальное окно</button>
-    <Modal ref="modal">
+    <ModalComponent ref="modal">
       <h2>Это модальное окно!</h2>
       <p>Здесь может быть ваше содержимое.</p>
-    </Modal>
+    </ModalComponent>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import Modal from './components/ModalComponent.vue'
+import ModalComponent from './components/ModalComponent.vue'
 
-const modal = ref(null)
+// Типизация для ссылки на модальное окно
+const modal = ref<InstanceType<typeof ModalComponent> | null>(null)
 
-function showModal() {
+// Метод для открытия модального окна
+function showModal(): void {
   modal.value?.showModal()
 }
 </script>
