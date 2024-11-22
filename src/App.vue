@@ -9,10 +9,8 @@
 import { ref } from 'vue'
 import ModalWithTree from './components/ModalWithTree.vue'
 
-// Ссылка на компонент Modal
-const modal = ref(null)
+const modal = ref<InstanceType<typeof ModalWithTree> | null>(null)
 
-// Открытие модального окна
 function openModal() {
   modal.value?.showModal()
 }
