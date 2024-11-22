@@ -1,8 +1,11 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+// import { RouterLink, RouterView } from 'vue-router'
+import BaseComponent from './components/BaseComponent.vue'
 </script>
 
-<template><div>Main</div></template>
+<template>
+  <BaseComponent />
+</template>
 
 <style scoped>
 header {
