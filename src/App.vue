@@ -1,23 +1,25 @@
 <template>
   <div>
-    <button @click="showModal">Открыть модальное окно</button>
-    <ModalComponent ref="modal">
-      <h2>Это модальное окно!</h2>
-      <p>Здесь может быть ваше содержимое.</p>
-    </ModalComponent>
+    <button @click="openModal">Открыть дерево папок</button>
+    <ModalWithTree title="Выберите папку" ref="modal" @select="handleFolderSelect" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import ModalComponent from './components/ModalComponent.vue'
+import ModalWithTree from './components/ModalWithTree.vue'
 
-// Типизация для ссылки на модальное окно
-const modal = ref<InstanceType<typeof ModalComponent> | null>(null)
+// Ссылка на компонент Modal
+const modal = ref(null)
 
-// Метод для открытия модального окна
-function showModal(): void {
+// Открытие модального окна
+function openModal() {
   modal.value?.showModal()
+}
+
+// Обработчик события select из модального окна
+function handleFolderSelect(folderId: string) {
+  console.log('Вы выбрали папку с id:', folderId)
 }
 </script>
 
