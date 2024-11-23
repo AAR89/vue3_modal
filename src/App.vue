@@ -1,14 +1,14 @@
 <template>
   <div>
     <div class="buttons_container">
-      <button @click="openModal">Открыть</button>
+      <button v-if="!selectedFolder" @click="openModal">Открыть</button>
 
-      <button @click="resetSelection">Сброс</button>
+      <!-- Кнопка для сброса выбора папки -->
+      <button v-if="selectedFolder" @click="resetSelection">Сброс</button>
     </div>
-    <!-- Сообщение с выбранным ID папки -->
-    <div v-if="selectedFolderId">Вы выбрали папку с id: {{ selectedFolderId }}</div>
 
-    <!-- Кнопка сброса -->
+    <!-- Сообщение с названием выбранной папки -->
+    <div v-if="selectedFolder">Вы выбрали папку с названием: {{ selectedFolder.name }}</div>
 
     <!-- Модальное окно -->
     <ModalWithTree title="Выберите папку" ref="modal" @select="handleFolderSelect" />
@@ -22,8 +22,8 @@ import ModalWithTree from './components/ModalWithTree.vue'
 // Ссылка на модальное окно
 const modal = ref<InstanceType<typeof ModalWithTree> | null>(null)
 
-// Переменная для хранения ID выбранной папки
-const selectedFolderId = ref<string | null>(null)
+// Переменная для хранения выбранной папки
+const selectedFolder = ref<{ id: string; name: string } | null>(null)
 
 // Функция для открытия модального окна
 function openModal() {
@@ -31,21 +31,23 @@ function openModal() {
 }
 
 // Обработчик события select из модального окна
-function handleFolderSelect(folderId: string) {
-  selectedFolderId.value = folderId
-  modal.value?.closeModal() // Закрыть модальное окно после выбора папки
+function handleFolderSelect(folder: { id: string; name: string }) {
+  selectedFolder.value = folder // Обновляем выбранную папку
+  modal.value?.closeModal() // Закрываем модальное окно после выбора
 }
 
-// Функция сброса выбранного ID
+// Функция сброса выбранной папки
 function resetSelection() {
-  selectedFolderId.value = null
+  selectedFolder.value = null
 }
 </script>
 
 <style scoped>
 .buttons_container {
+  width: 280px;
   display: flex;
   gap: 10px;
+  justify-content: center;
 }
 
 button {

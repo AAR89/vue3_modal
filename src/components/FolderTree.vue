@@ -12,7 +12,7 @@
                 :name="folder.id"
                 :value="folder.id"
                 v-model="selectedFolderId"
-                @change="handleFolderSelect(folder.id)"
+                @change="handleFolderSelect(folder)"
               />
             </span>
           </span>
@@ -37,11 +37,11 @@ interface Folder {
 }
 
 defineProps<{
-  folders: Folder[]
+  folders: Folder[] // Ожидаем массив папок
 }>()
 
 const emit = defineEmits<{
-  (event: 'select-folder', folderId: string): void
+  (event: 'select-folder', folder: Folder): void // Эмитируем всю папку
 }>()
 
 // Выбранная папка
@@ -53,15 +53,15 @@ function toggle(folder: Folder) {
 }
 
 // Локальный выбор папки
-function handleFolderSelect(folderId: string) {
-  console.log('Папка выбрана локально с id:', folderId)
-  selectedFolderId.value = folderId
-  emit('select-folder', folderId) // Генерация события
+function handleFolderSelect(folder: Folder) {
+  console.log('Папка выбрана локально с id:', folder.id)
+  selectedFolderId.value = folder.id
+  emit('select-folder', folder) // Генерация события с передачей всей папки
 }
 
 // Проброс события на верхний уровень
-function emitSelectFolder(folderId: string) {
-  emit('select-folder', folderId) // Проброс вверх
+function emitSelectFolder(folder: Folder) {
+  emit('select-folder', folder) // Проброс вверх
 }
 </script>
 
