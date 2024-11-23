@@ -95,6 +95,7 @@ onMounted(() => {
   z-index: 1000;
   opacity: 1; /* Плавное затемнение */
   transition: opacity 0.3s ease; /* Анимация для затемнения */
+  margin-top: 0px;
 }
 
 /* Начальные стили для модального окна */
