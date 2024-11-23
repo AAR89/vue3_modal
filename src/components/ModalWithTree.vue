@@ -62,6 +62,7 @@ function handleSelect() {
   console.log('handleSelect')
   if (selectedFolderId.value) {
     emit('select', selectedFolderId.value)
+    console.log('Событие select с id:', selectedFolderId.value)
     closeModal()
   }
 }

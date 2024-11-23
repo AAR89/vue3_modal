@@ -3,8 +3,8 @@
     <li v-for="folder in folders" :key="folder.id">
       <div class="tree">
         <div>
-          <span class="tree-span" @click="toggle(folder)"
-            >{{ folder.name }}
+          <span class="tree-span" @click="toggle(folder)">
+            {{ folder.name }}
             <span>
               <input
                 v-if="!folder.children.length"
@@ -12,11 +12,13 @@
                 :name="folder.id"
                 :value="folder.id"
                 v-model="selectedFolderId"
-              /> </span
-          ></span>
+                @change="handleFolderSelect(folder.id)"
+              />
+            </span>
+          </span>
 
           <ul v-if="folder.isOpen">
-            <FolderTree :folders="folder.children" @select-folder="selectFolder" />
+            <FolderTree :folders="folder.children" @select-folder="emitSelectFolder" />
           </ul>
         </div>
       </div>
@@ -42,14 +44,24 @@ const emit = defineEmits<{
   (event: 'select-folder', folderId: string): void
 }>()
 
+// Выбранная папка
 const selectedFolderId = ref<string | null>(null)
 
+// Раскрытие/закрытие папки
 function toggle(folder: Folder) {
   folder.isOpen = !folder.isOpen
 }
 
-function selectFolder(folderId: string) {
-  emit('select-folder', folderId)
+// Локальный выбор папки
+function handleFolderSelect(folderId: string) {
+  console.log('Папка выбрана локально с id:', folderId)
+  selectedFolderId.value = folderId
+  emit('select-folder', folderId) // Генерация события
+}
+
+// Проброс события на верхний уровень
+function emitSelectFolder(folderId: string) {
+  emit('select-folder', folderId) // Проброс вверх
 }
 </script>
 
